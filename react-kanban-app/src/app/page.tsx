@@ -49,11 +49,20 @@ export default function Home() {
 
 
 function Board({ id, title }) {
-  const [numtasks, setTasks] = useState(0);
+  const initTasks = [
+    {id: 1, text: 'New Task', stat: 'pending'}
+    ];
 
-  function handleClick() {
-    setTasks(numtasks+1);
-  }
+  const [numtasks, setTasks] = useState(initTasks);
+
+  const handleStatus = id => {
+    const tempList = numtasks.map(eachtask => {
+     return eachtask.id == id ? { ...eachtask, stat: eachtask.stat=='pending'?'completed':'pending'}  : { ...eachtask};
+   });
+    /* it maps each member of the list. each task is checked for the clicked id. If it does not have the clicked id, the task is returned as is. If the id matches, it returns all params before the stat and then for the stat param which is last param, it checks what current stat is and toggles pending or completed. This returned list is then pushed into existing list*/
+    setTasks(tempList);
+  };
+
 
   return (
     <>
@@ -64,12 +73,42 @@ function Board({ id, title }) {
         </div>
 
         <div className="mainstuff">
-          <button onClick={handleClick}>
-            Number of tasks is: {numtasks} 
+          <p>{numtasks.length} { (numtasks.length>1)?('tasks'):('task') }</p>
+          <button onClick={() => {
+              setTasks(
+                [{
+                    id: numtasks.length+1,
+                    text: 'New Task',
+                    stat: 'pending'
+                  }, ...numtasks]
+                );
+            }
+          }>
+            Add Task + 
           </button>
-          <p>bl</p>
+          <div>
+            {numtasks.map(eachtask => (
+              <Task 
+                id={eachtask.id}
+                text={eachtask.text}
+                status={eachtask.stat}
+                handleComplete={handleStatus}
+              />
+            ))}
+          </div>
+
         </div>
       </div>
     </>
   );
+}
+
+function Task({ id, text, status, handleComplete }){
+
+  return (
+    <button className={status} onClick={() => handleComplete(id)}>
+      <span> {id} | </span>
+      <b> {text} </b>
+    </button>
+    )
 }
