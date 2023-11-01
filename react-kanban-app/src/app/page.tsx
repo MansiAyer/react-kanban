@@ -12,33 +12,14 @@ export default function Home() {
 
   const handleDelB = id => {
     const tempList = [...numBoards];
-    tempList.splice(id-1,1);
+    tempList.splice(tempList.findIndex((item) => item.id==id),1);
     setBoards(
         tempList.map(eachboard => {
        return {id: tempList.indexOf(eachboard) , ...eachboard};
      })
       );
-  };
 
-
-/*
-  const handleChange = id => {
-    const [newText, setText] = useState('');
-    const newTitle = () => {
-      return (
-        <>
-          <input 
-          value={''}
-          onMouseLeave={(e) => setText(e.target.value==''?)}
-          />
-        </>
-        );
-    };
-    const tempList = numBoards.map(eachboard => {
-      return eachboard.id == id ? { ...eachboard, title: newTitle}  : { ...eachboard};
-    });
   };
-*/
 
   return (
     <main className={styles.main}>
@@ -49,9 +30,10 @@ export default function Home() {
         </p>
         <div>
           <button onClick={() => {
+              let temp = numBoards[0].id;
               setBoards(
                 [{
-                    id: numBoards.length+1,
+                    id: temp+1,
                     title: 'New Board'
                   }, ...numBoards]
                 );
