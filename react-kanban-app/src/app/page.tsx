@@ -8,8 +8,37 @@ export default function Home() {
   const initBoards = [
     {id: 1, title: 'New Board'}
     ];
-
   const [numBoards, setBoards] = useState(initBoards);
+
+  const handleDelB = id => {
+    const tempList = [...numBoards];
+    tempList.splice(id-1,1);
+    setBoards(
+        tempList.map(eachboard => {
+       return {id: tempList.indexOf(eachboard) , ...eachboard};
+     })
+      );
+  };
+
+
+/*
+  const handleChange = id => {
+    const [newText, setText] = useState('');
+    const newTitle = () => {
+      return (
+        <>
+          <input 
+          value={''}
+          onMouseLeave={(e) => setText(e.target.value==''?)}
+          />
+        </>
+        );
+    };
+    const tempList = numBoards.map(eachboard => {
+      return eachboard.id == id ? { ...eachboard, title: newTitle}  : { ...eachboard};
+    });
+  };
+*/
 
   return (
     <main className={styles.main}>
@@ -37,39 +66,50 @@ export default function Home() {
           <Board 
             id={eachboard.id}
             title={eachboard.title}
+            handleDelB={handleDelB}
           />
         ))}
 
       </div>
     </main>
-  )
+  );
 }
 
 
 
 
-function Board({ id, title }) {
+function Board({ id, title, handleDelB }) {
   const initTasks = [
     {id: 1, text: 'New Task', stat: 'pending'}
     ];
-
   const [numtasks, setTasks] = useState(initTasks);
 
+
+  /*Below is the toggle for completed or pending task on a board.
+      it maps each member of the list. 
+      each task is checked for the clicked id. 
+      If it does not have the clicked id, the task is returned as is. 
+      If the id matches, it returns all params before the stat and then for the stat param which is last param, it checks what current stat is and toggles pending or completed. 
+      This returned list is then pushed into existing list
+  */
   const handleStatus = id => {
     const tempList = numtasks.map(eachtask => {
      return eachtask.id == id ? { ...eachtask, stat: eachtask.stat=='pending'?'completed':'pending'}  : { ...eachtask};
    });
-    /* it maps each member of the list. each task is checked for the clicked id. If it does not have the clicked id, the task is returned as is. If the id matches, it returns all params before the stat and then for the stat param which is last param, it checks what current stat is and toggles pending or completed. This returned list is then pushed into existing list*/
     setTasks(tempList);
   };
+
+  
+  const [newText, setText] = useState(title);
+  
 
 
   return (
     <>
       <div className="boardbox">
-        <div className="top">
+        <div className="top" onMouseEnter={() => setText('egg')} onMouseLeave={() => setText(title)}>
           <span> { id } </span>
-          <span> { title } </span>
+          <span> { newText } </span>
         </div>
 
         <div className="mainstuff">
@@ -96,8 +136,10 @@ function Board({ id, title }) {
               />
             ))}
           </div>
-
         </div>
+        <button onClick={() => handleDelB(id)}>
+          Delete Board
+        </button>
       </div>
     </>
   );
@@ -110,5 +152,5 @@ function Task({ id, text, status, handleComplete }){
       <span> {id} | </span>
       <b> {text} </b>
     </button>
-    )
+    );
 }
