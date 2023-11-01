@@ -114,10 +114,12 @@ button {
 }
 
 .boardbox {
-  border: 1px solid #cccccc;
   padding: 1rem;
-  margin: 1rem;  
+  margin: 3rem 2rem 0rem 0rem;  
   font-family: var(--font-mono);
+  background-color: rgba(var(--callout-rgb), 0.5);
+  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
+  border-radius: var(--border-radius);
 }
 
 .boardbox > .top {
@@ -127,8 +129,30 @@ button {
   justify-content: space-between;
   align-items: center;
   font-size: 1.4rem;
+  margin: 0.5rem;
 }
 
 .boardbox > .mainstuff {
-  padding: 0.5rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.mainstuff > div {
+  text-align: left;
+}
+
+.pending {
+  margin: 0.5rem;
+  /*removing button look*/
+  background-color: rgba(0, 0, 0, 0.0);
+  border: none;
+  border-bottom: 1px solid #aaaaaa;
+}
+.completed {
+  margin: 0.5rem;
+  text-decoration: line-through;
+  /*removing button look*/
+  background-color: rgba(0, 0, 0, 0.0);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.0);
 }
