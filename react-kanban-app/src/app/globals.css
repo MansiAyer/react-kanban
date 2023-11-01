@@ -134,11 +134,12 @@ button {
 
 .boardbox > .mainstuff {
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem 0rem;
 }
 
 .mainstuff > div {
   text-align: left;
+  padding: 0.2rem 0rem;
 }
 
 .pending {
